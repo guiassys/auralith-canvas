@@ -1,64 +1,54 @@
 # AI Engineering Prompt: Recreate the Auralith Canvas Application
 
-You are an expert AI software engineer specializing in Python, generative AI, and modern application architecture. Your task is to generate a complete, functional, and well-structured Python application based on the detailed requirements below. The application, named "Auralith Canvas," is a tool for creating animations from images and text prompts.
+You are an expert AI software engineer specializing in Python, generative AI, and modern application architecture. Your task is to generate a complete, functional, and well-structured Python application based on the detailed requirements below. The application, named "Auralith Canvas," is a tool for creating images from images and text prompts.
 
 ---
 
 ## 🎯 Primary Objective
 
-Create a Python application that allows a user to generate an animated video from a single input image and a text prompt. The application must feature a web-based user interface and be built upon a modular, layered architecture.
+Create a Python application that allows a user to generate an images (.png, .jpg, .gif) from a single input image and a text prompt. The application must feature a web-based user interface and be built upon a modular, layered architecture.
 
 ---
 
 ## 🏗️ System Architecture
 
 The application must be designed with a clear separation of concerns, following a layered architecture.
+The application must be secure and make use of designer patterns. Use SOLID whenever possible.
 
 ### 1. Web Interface Layer (`src/web/`)
--   **Technology:** Gradio
 -   **File:** `app.py`
+-   **Framework:** Gradio
 -   **Functionality:**
-    -   Provide a user-friendly interface with the title "Auralith Canvas".
-    -   Include input fields for:
-        -   `Project Name` (Textbox)
-        -   `Scene Prompt` (Textbox)
-        -   `Upload Initial Image` (Image Upload)
-    -   Display a "GENERATE" button to trigger the animation process.
-    -   Show a "Console" tab with a textbox for real-time logging and a progress bar.
-    -   Display the final generated video and a download link upon completion.
-    -   Implement a "Clear Inputs" button to reset the form.
--   **Styling:**
-    -   Use a custom dark theme. Create a `ui_theme.py` file to define the theme and CSS.
+    -   Provide a user-friendly web interface for interacting with the image generation process.
+    -   Allow users to upload a single input image file (e.g., PNG, JPG).
+    -   Include a text input field for users to provide a descriptive prompt for the desired image.
+    -   Display the generated image prominently after the process is complete.
+    -   Implement a "Generate" button to initiate the image creation.
+    -   Integrate with the `LogStream` utility to display real-time feedback and progress messages to the user during generation.
 
 ### 2. Service Layer (`src/services/`)
--   **File:** `animation_service.py`
--   **Class:** `AnimationService`
+-   **File:** `image_generation_service.py`
+-   **Class:** `ImageGenerationService`
 -   **Functionality:**
-    -   Act as an orchestrator between the web UI and the AI engine.
-    -   Define a method `generate_animation(config, log_stream)` that takes a configuration dictionary (containing the project name, prompt, and image path) and a log stream object.
-    -   Manage the animation generation process in a separate thread to keep the UI responsive.
-    -   Handle file I/O, creating an output directory (`outputs/animations`) and saving the final video with a unique name.
-    -   Provide robust error handling and log every step of the process.
+    -   Act as an intermediary between the Web Interface Layer and the AI Engine Layer.
+    -   Receive the input image and text prompt from the web interface.
+    -   Validate inputs to ensure they meet the requirements for the AI model.
+    -   Call the AI Engine Layer to perform the image generation.
+    -   Handle the saving of the generated image to a specified output directory.
+    -   Manage the state of the generation process (e.g., "pending," "generating," "completed," "failed").
+    -   Provide methods for logging status updates and errors using the `LogStream`.
 
 ### 3. AI Engine Layer (`src/scripts/`)
--   **File:** `animate_breathing_loop.py`
+-   **File:** `ai_model_interface.py`
+-   **Class:** `AIModelInterface`
 -   **Functionality:**
-    -   Define a core function `generate_animation_scene(prompt, input_image, output_path)`.
-    -   This function will encapsulate the logic for the AI-powered animation generation.
-    -   **Models to Use:**
-        -   `AnimateDiffPipeline` from `diffusers`.
-        -   Motion Adapter: `guoyww/animatediff-motion-adapter-v1-5-2`
-        -   Base Model: `emilianJR/epiCRealism`
-        -   IP-Adapter: `h94/IP-Adapter` with `ip-adapter_sd15.bin` weights.
-    -   **Generation Parameters:**
-        -   `num_frames`: 16
-        -   `guidance_scale`: 7.5
-        -   `num_inference_steps`: 30
-        -   `width`: 1024
-        -   `height`: 576
-    -   **Optimizations:**
-        -   Enable VAE slicing and model CPU offload for memory efficiency.
-    -   The script should also include a helper function `export_to_video` that uses `opencv-python` to save the generated frames as an `.mp4` file.
+    -   Encapsulate all interactions with the chosen AI image generation model.
+    -   Provide a method, `generate_image(input_image_path: str, prompt: str) -> str`, which takes the path to an input image and a text prompt, and returns the path to the newly generated image.
+    -   This method should load the AI model (e.g., a Stable Diffusion variant or similar capable of image-to-image generation guided by text).
+    -   Perform necessary pre-processing on the input image and prompt for the model.
+    -   Execute the model inference to generate the new image.
+    -   Handle post-processing of the generated image (e.g., converting tensor to PIL Image, saving to disk).
+    -   Abstract away the specifics of the AI model, allowing for easier swapping of models in the future.
 
 ### 4. Logging Utility (`src/web/`)
 -   **File:** `log_stream.py`
@@ -66,37 +56,17 @@ The application must be designed with a clear separation of concerns, following 
 -   **Functionality:**
     -   Create a class that can be used to stream log messages from the backend services to the Gradio UI in real-time.
     -   It should implement a generator (`stream_generator`) that yields log messages as they are added.
-
+    
 ---
 
 ## ⚙️ Implementation Instructions
 
-1.  **Create the Project Structure:**
-    -   Set up the directories as defined in the architecture section.
-    -   Create empty `__init__.py` files where necessary to define Python packages.
-
-2.  **Implement the AI Engine (`animate_breathing_loop.py`):**
-    -   Write the `generate_animation_scene` function, loading the specified models and setting the generation parameters.
-    -   Implement the `export_to_video` helper function.
-
-3.  **Implement the Service Layer (`animation_service.py`):**
-    -   Create the `AnimationService` class.
-    -   The `generate_animation` method should call the `generate_animation_scene` function from the AI engine.
-    -   Use Python's `threading` module to run the generation in a background thread.
-
-4.  **Implement the Web Interface (`app.py`):**
-    -   Build the Gradio UI as specified.
-    -   The "GENERATE" button's click handler should:
-        -   Instantiate the `AnimationService`.
-        -   Call the `generate_animation` method in a new thread.
-        -   Update the UI with real-time logs and progress from the `LogStream`.
-        -   Display the final video when the generation is complete.
-
-5.  **Create the `requirements.txt` file:**
-    -   Include all necessary libraries: `gradio`, `torch`, `diffusers`, `transformers`, `opencv-python`, `numpy`.
-
-6.  **Create a `README.md` file:**
-    -   Provide a clear and concise overview of the project, its architecture, and instructions on how to run it.
+-   **Dependencies:** Use `gradio` for the web interface. For AI image generation, consider using popular libraries like `diffusers` (Hugging Face) with a pre-trained model capable of image-to-image generation (e.g., Stable Diffusion img2img). `Pillow` (PIL) will be essential for image manipulation.
+-   **Project Structure:** Adhere strictly to the specified layered architecture and file organization.
+-   **AI Model Selection:** Choose an open-source AI model that excels at generating new images based on an existing image and a text prompt. The model should be able to blend elements from the input image with the concepts described in the prompt.
+-   **Asynchronous Processing:** Implement asynchronous handling for the image generation process to prevent the web interface from freezing during long-running AI tasks. Gradio's `gr.Interface` can often handle this with appropriate function signatures.
+-   **Error Handling:** Implement robust error handling in all layers, providing informative messages to the user via the `LogStream` and the UI.
+-   **Output Management:** Generated images should be saved to a designated output directory (e.g., `output/`) with unique filenames.
 
 ---
 
