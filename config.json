@@ -4,6 +4,11 @@
         "overlap_duration": 2,
         "fade-out_duration": 2
     },
+    "image_settings": {
+        "strength": 0.75,
+        "guidance_scale": 7.5,
+        "seed": 42
+    },
     "output_directory": "outputs",
     "animation_settings": {
         "total_frames": 32,

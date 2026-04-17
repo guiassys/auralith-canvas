@@ -68,7 +68,8 @@ class ImageGenerationService:
                     input_image_path=image_path,
                     output_path=output_path,
                     strength=config.get('strength', 0.75),
-                    guidance_scale=config.get('guidance_scale', 7.5)
+                    guidance_scale=config.get('guidance_scale', 7.5),
+                    seed=config.get('seed', 42)
                 )
 
                 end_time = time.time()

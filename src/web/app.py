@@ -29,6 +29,7 @@ def load_config():
             "image_settings": {
                 "strength": 0.75,
                 "guidance_scale": 7.5,
+                "seed": 42
             },
             "output_directory": "outputs/images",
         }
@@ -80,9 +81,10 @@ def create_ui():
                         with gr.Row():
                             strength = gr.Slider(label="Strength", minimum=0, maximum=1, step=0.05, value=config.get("image_settings", {}).get("strength", 0.75))
                             guidance_scale = gr.Slider(label="Guidance Scale", minimum=1, maximum=20, step=0.5, value=config.get("image_settings", {}).get("guidance_scale", 7.5))
+                            seed_input = gr.Number(label="Seed", value=config.get("image_settings", {}).get("seed", 42), precision=0, minimum=-1)
 
                         gr.Markdown("### Output Settings")
-                        output_directory_input = gr.Textbox(label="Output Directory", value=config["output_directory"])
+                        output_directory_input = gr.Textbox(label="Output Directory", value=config.get("output_directory", "outputs"))
 
 
                     # --- Tab 3: Console & Output ---
@@ -108,7 +110,7 @@ def create_ui():
         # --- Event Handling & Logic ---
         def run_generation(prompt, image, 
                            # Image Settings
-                           strength_val, guidance_val,
+                           strength_val, guidance_val, seed_val,
                            # Output Settings
                            output_dir_ui):
             """Handles the image generation process and UI updates."""
@@ -140,6 +142,7 @@ def create_ui():
                 "image_path": image,
                 "strength": strength_val,
                 "guidance_scale": guidance_val,
+                "seed": int(seed_val),
                 "output_directory": output_dir_ui
             }
 
@@ -198,7 +201,7 @@ def create_ui():
         
         # List of all setting components
         setting_inputs = [
-            strength, guidance_scale,
+            strength, guidance_scale, seed_input,
             output_directory_input
         ]
 
