@@ -11,7 +11,7 @@ import base64
 import json
 from src.services.image_generation_service import ImageGenerationService
 from src.web.log_stream import LogStream
-# from src.web.ui_theme import auralith_theme, custom_css
+from src.web.ui_theme import auralith_theme, custom_css
 
 # --- Logging Configuration ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -53,7 +53,11 @@ def get_image_html(image_path):
 # --- UI DEFINITION ---
 def create_ui():
     """Builds the Gradio Blocks UI for Auralith Canvas."""
-    with gr.Blocks(title="Auralith Canvas") as demo:
+    with gr.Blocks(
+            title="Auralith Canvas",
+            theme=auralith_theme,
+            css=custom_css
+    ) as demo:
         # --- Header ---
         with gr.Row(elem_classes=["header"]):
             gr.Markdown("## 🎨 Auralith Canvas", elem_id="logo")
@@ -233,7 +237,5 @@ if __name__ == "__main__":
     interface.launch(
         server_name="0.0.0.0",
         server_port=7860,
-        show_error=True,
-        theme=gr.themes.Monochrome(),
-        # css=custom_css
+        show_error=True
     )
