@@ -1,0 +1,20 @@
+{
+    "instruments": [],
+    "default_instruments": ["acoustic bass", "acoustic guitar"],
+    "generator_settings": {
+        "chunk_duration": 10,
+        "overlap_duration": 2,
+        "fade-out_duration": 2
+    },
+    "output_directory": "outputs/animations",
+    "animation_settings": {
+        "total_frames": 32,
+        "frames_per_chunk": 16,
+        "guidance_scale": 7.5,
+        "num_inference_steps": 40,
+        "width": 1024,
+        "height": 576,
+        "fps": 12,
+        "ip_adapter_scale": 0.7
+    }
+}
