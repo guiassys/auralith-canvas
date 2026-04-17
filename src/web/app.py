@@ -11,7 +11,7 @@ import base64
 import json
 from src.services.image_generation_service import ImageGenerationService
 from src.web.log_stream import LogStream
-from src.web.ui_theme import auralith_theme, custom_css
+# from src.web.ui_theme import auralith_theme, custom_css
 
 # --- Logging Configuration ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -108,21 +108,11 @@ def create_ui():
                            # Output Settings
                            output_dir_ui):
             """Handles the image generation process and UI updates."""
-            if not prompt:
-                gr.Warning("A prompt is required to generate an image.")
+            if not prompt and not image:
+                gr.Warning("A prompt or an initial image is required to generate an image.")
                 yield {
                     tabs: gr.update(selected=0),
-                    status_output: "Error: A prompt is required.",
-                    generate_btn: gr.update(interactive=True),
-                    clear_btn: gr.update(interactive=True),
-                }
-                return
-            
-            if not image:
-                gr.Warning("An initial image is required.")
-                yield {
-                    tabs: gr.update(selected=0),
-                    status_output: "Error: An initial image is required.",
+                    status_output: "Error: A prompt or an initial image is required.",
                     generate_btn: gr.update(interactive=True),
                     clear_btn: gr.update(interactive=True),
                 }
@@ -244,6 +234,6 @@ if __name__ == "__main__":
         server_name="0.0.0.0",
         server_port=7860,
         show_error=True,
-        theme=auralith_theme,
-        css=custom_css
+        theme=gr.themes.Monochrome(),
+        # css=custom_css
     )

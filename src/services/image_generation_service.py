@@ -49,10 +49,8 @@ class ImageGenerationService:
                 image_path = config.get('image_path')
                 output_dir_from_config = config.get('output_directory', self.output_dir)
 
-                if not prompt:
-                    raise ValueError("A prompt is required.")
-                if not image_path:
-                    raise ValueError("An input image is required.")
+                if not prompt and not image_path:
+                    raise ValueError("A prompt or an input image is required.")
 
                 _log(f"Starting image generation process...")
                 _log(f"Using configuration: {config}")
