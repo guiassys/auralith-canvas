@@ -10,7 +10,7 @@
         "seed": 42
     },
     "output_directory": "outputs",
-    "output_filename_suffix": "_v01_gen",
+    "output_filename_suffix": "v01_gen",
     "animation_settings": {
         "total_frames": 32,
         "frames_per_chunk": 16,
@@ -20,5 +20,9 @@
         "height": 576,
         "fps": 12,
         "ip_adapter_scale": 0.7
+    },
+    "web_settings": {
+        "server_port": 7862,
+        "server_host": "localhost"
     }
 }

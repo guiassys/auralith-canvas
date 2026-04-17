@@ -32,11 +32,16 @@ def load_config():
                 "seed": 42
             },
             "output_directory": "outputs/images",
-            "output_filename_suffix": ""
+            "output_filename_suffix": "",
+            "web_settings": {
+                "server_port": 7860
+            }
         }
 
 config = load_config()
 output_dir = config.get("output_directory", "outputs/images")
+server_port = config.get("web_settings", {}).get("server_port", 7860)
+server_host = config.get("web_settings", {}).get("server_host", "0.0.0.0")
 
 # --- Service Initialization ---
 image_generation_service = ImageGenerationService(output_dir=output_dir)
@@ -231,7 +236,7 @@ interface = create_ui()
 
 if __name__ == "__main__":
     interface.launch(
-        server_name="0.0.0.0",
-        server_port=7860,
+        server_name=server_host,
+        server_port=server_port,
         show_error=True
     )

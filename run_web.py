@@ -2,8 +2,25 @@
 
 import sys
 import os
+import json
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "src")))
+
+def get_server_port():
+    try:
+        with open("config.json", "r") as f:
+            config = json.load(f)
+            return config.get("web_settings", {}).get("server_port", 7860)
+    except Exception:
+        return 7860
+
+def get_server_host():
+    try:
+        with open("config.json", "r") as f:
+            config = json.load(f)
+            return config.get("web_settings", {}).get("server_host", "0.0.0.0")
+    except Exception:
+        return "0.0.0.0"
 
 def main():
     # Encontra o diretório raiz do projeto independentemente de onde o script é executado
@@ -20,16 +37,18 @@ def main():
 
     # Adiciona ao path
     sys.path.insert(0, project_root)
+    server_host = get_server_host()
+    server_port = get_server_port()
 
     try:
         from src.web.app import interface
         print("🚀 Iniciando Auralith Canvas...")
-        print("📱 Acesse: http://localhost:7862")
+        print(f"📱 Acesse: http://{server_host}:{server_port}")
         print("❌ Pressione Ctrl+C para parar")
 
         interface.launch(
-            server_name="0.0.0.0",
-            server_port=7862,
+            server_name=server_host,
+            server_port=server_port,
             show_error=True
         )
     except ImportError as e:
