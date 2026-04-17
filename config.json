@@ -10,6 +10,7 @@
         "seed": 42
     },
     "output_directory": "outputs",
+    "output_filename_suffix": "_v01_gen",
     "animation_settings": {
         "total_frames": 32,
         "frames_per_chunk": 16,

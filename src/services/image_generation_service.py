@@ -48,6 +48,7 @@ class ImageGenerationService:
                 prompt = config.get('prompt')
                 image_path = config.get('image_path')
                 output_dir_from_config = config.get('output_directory', self.output_dir)
+                filename_suffix = config.get('output_filename_suffix', '')
 
                 if not prompt and not image_path:
                     raise ValueError("A prompt or an input image is required.")
@@ -58,7 +59,11 @@ class ImageGenerationService:
                 ai_model = self._get_model(log_stream)
 
                 timestamp = time.strftime("%Y%m%d_%H%M%S")
-                output_filename = f"{timestamp}_generated_image.png"
+                # Construct filename with user-defined suffix
+                if filename_suffix:
+                    output_filename = f"{timestamp}_{filename_suffix}.png"
+                else:
+                    output_filename = f"{timestamp}.png"
                 
                 os.makedirs(output_dir_from_config, exist_ok=True)
                 output_path = os.path.join(output_dir_from_config, output_filename)

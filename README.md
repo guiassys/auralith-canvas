@@ -22,20 +22,24 @@ Auralith Canvas is built as a modular, AI-based multimedia generation pipeline.
 ## 🔹 System Layers
 
 ### 1. Generation Layer
-//TODO
+The core AI engine (`src/scripts/ai_model_interface.py`), responsible for receiving prompts and configurations, interacting with generation models, and returning the raw generated image.
 
 ### 2. Service Layer
-//TODO
+The business logic orchestrator (`src/services/image_generation_service.py`), which bridges the web interface and the generation layer. It handles file naming, directory creation, threading, and logging.
 
 ### 3. Web Interface Layer
-//TODO
+The user-facing Gradio application (`src/web/app.py`). It provides a modern, DAW-inspired UI with real-time log streaming, progress tracking, and input validation.
 
 ### 4. Output Layer
-//TODO
+The final destination for generated assets. It structures the outputs by saving generated images with timestamps and optional user-defined suffixes inside the designated output directory.
 
 ## 🔄 System Flow
 
-//TODO
+1. **User Input:** The user provides a text prompt, an optional initial image, and configuration settings (e.g., strength, guidance scale, seed) via the Gradio UI.
+2. **Service Request:** The UI triggers the `ImageGenerationService`, passing all the configurations.
+3. **Execution:** The service locks the process to ensure single-threaded execution, formatting the expected output file path, and calls the `AIModelInterface`.
+4. **Generation:** The AI Model generates the image, streaming status logs back to the UI in real-time.
+5. **Completion:** The generated image is saved to disk, and the path is returned to the UI, which updates the view with the final image and success logs.
 
 ---
 
@@ -63,13 +67,16 @@ python run_web.py
 ```bash
 python src/web/app.py
 ```
-Access the interface at: http://localhost:7862
+Access the interface at: http://localhost:7860
 
 **Web Interface:**
-//TODO
+The interface provides three main tabs:
+- **🎨 Image Generation:** For inputting your prompt and initial image.
+- **⚙️ Settings:** To adjust generation parameters and output directories.
+- **🖥️ Console:** To monitor the generation process via real-time logs and preview the final result.
 
 ## Result
-The generated file will be saved in the `outputs` directory.
+The generated file will be saved in the `outputs` directory (or custom output directory defined in the settings).
 
 ---
 
@@ -78,16 +85,23 @@ The generated file will be saved in the `outputs` directory.
 ```
 auralith-canvas/
 ├── src/
-│   ├── services/         # Application layer
-│   │   └── animation_service.py
-│   ├── scripts/          # Generation pipeline
-│   │   └── animate_breathing_loop.py
-│   └── web/              # Web interface
+│   ├── ai_agent/         # AI configuration and prompts
+│   │   └── GEMINI-01.md
+│   ├── services/         # Application layer orchestrator
+│   │   └── image_generation_service.py
+│   ├── scripts/          # Generation pipeline (AI Model integration)
+│   │   └── ai_model_interface.py
+│   └── web/              # Web interface implementation
 │       ├── app.py
+│       ├── log_stream.py
+│       ├── run_web.py
 │       └── ui_theme.py
-├── outputs/              # Generated files
+├── outputs/              # Default destination for generated files
 ├── .gitignore
-├── requirements.txt      # Dependencies
+├── requirements.txt      # Python dependencies
+├── config.json           # Default user configuration file
+├── temp_install.py       # Installation utilities
+├── run_web.py            # Entry point for the Gradio application
 └── README.md
 ```
 
@@ -95,19 +109,21 @@ auralith-canvas/
 
 # 📦 Requirements
 
-//TODO
+- Python 3.10+
+- A compatible GPU (NVIDIA recommended for optimal generation times)
+- Dependencies listed in `requirements.txt` (including Gradio and Torch)
 
 ---
 
 # 🚧 Project Status
 
-//TODO
+Actively in development. Currently supporting static image generation from prompts and initial images with a functional Gradio interface.
 
 ---
 
 # 🌌 Vision
 
-//TODO
+To evolve into a comprehensive toolkit for AI-driven visual creation, eventually expanding to incorporate video generation, advanced style transfers, and seamless integration with other creative software ecosystems.
 
 ---
 

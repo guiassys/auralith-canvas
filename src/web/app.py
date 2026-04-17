@@ -32,6 +32,7 @@ def load_config():
                 "seed": 42
             },
             "output_directory": "outputs/images",
+            "output_filename_suffix": ""
         }
 
 config = load_config()
@@ -85,6 +86,7 @@ def create_ui():
 
                         gr.Markdown("### Output Settings")
                         output_directory_input = gr.Textbox(label="Output Directory", value=config.get("output_directory", "outputs"))
+                        output_suffix_input = gr.Textbox(label="Output Filename Suffix", value=config.get("output_filename_suffix", ""))
 
 
                     # --- Tab 3: Console & Output ---
@@ -94,17 +96,12 @@ def create_ui():
                             file_output = gr.File(label="Download Image", visible=False)
                             image_preview = gr.HTML(label="Image Preview", visible=False)
 
-                # --- Global Action Buttons ---
-                with gr.Row():
-                    clear_btn = gr.Button("🗑️ Clear Inputs")
-                    generate_btn = gr.Button("🚀 GENERATE", variant="primary")
-
             # --- Sidebar ---
             with gr.Column(scale=1, min_width=100):
-                gr.Markdown("### 🛠️ Tools")
-                image_gen_btn = gr.Button("Image Generation")
-                settings_btn = gr.Button("Settings")
-                studio_console_btn = gr.Button("Console")
+                # --- Global Action Buttons Moved Here ---
+                gr.Markdown("### 🚀 Actions")
+                clear_btn = gr.Button("🗑️ Clear Inputs")
+                generate_btn = gr.Button("🚀 GENERATE", variant="primary")
 
 
         # --- Event Handling & Logic ---
@@ -112,7 +109,7 @@ def create_ui():
                            # Image Settings
                            strength_val, guidance_val, seed_val,
                            # Output Settings
-                           output_dir_ui):
+                           output_dir_ui, output_suffix_ui):
             """Handles the image generation process and UI updates."""
             if not prompt and not image:
                 gr.Warning("A prompt or an initial image is required to generate an image.")
@@ -143,7 +140,8 @@ def create_ui():
                 "strength": strength_val,
                 "guidance_scale": guidance_val,
                 "seed": int(seed_val),
-                "output_directory": output_dir_ui
+                "output_directory": output_dir_ui,
+                "output_filename_suffix": output_suffix_ui
             }
 
             # Update service's output directory if it has changed
@@ -202,7 +200,7 @@ def create_ui():
         # List of all setting components
         setting_inputs = [
             strength, guidance_scale, seed_input,
-            output_directory_input
+            output_directory_input, output_suffix_input
         ]
 
         generate_btn.click(
@@ -225,11 +223,6 @@ def create_ui():
         clear_btn.click(fn=clear_form, outputs=[
             prompt_input, image_upload, status_output, file_output, image_preview, progress_bar
         ])
-
-        image_gen_btn.click(lambda: gr.update(selected=0), None, tabs)
-        settings_btn.click(lambda: gr.update(selected=1), None, tabs)
-        studio_console_btn.click(lambda: gr.update(selected=2), None, tabs)
-
 
     return demo
 
