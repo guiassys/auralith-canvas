@@ -68,8 +68,6 @@ def create_ui():
         # --- Header ---
         with gr.Row(elem_classes=["header"]):
             gr.Markdown("## 🎨 Auralite ", elem_id="logo")
-            with gr.Column(scale=3):
-                progress_bar = gr.Slider(label="Rendering Progress", value=0, interactive=False, elem_classes=["glowing-progress"])
         
         with gr.Row():
             # --- Main Workspace ---
@@ -104,9 +102,10 @@ def create_ui():
             # --- Sidebar ---
             with gr.Column(scale=1, min_width=100):
                 # --- Global Action Buttons Moved Here ---
-                gr.Markdown("### 🚀 Actions")
+                gr.Markdown("### ⚡ Actions")
                 clear_btn = gr.Button("🗑️ Clear Inputs")
                 generate_btn = gr.Button("🚀 GENERATE", variant="primary")
+                progress_bar = gr.Slider(label="Rendering Progress", value=0, interactive=False, elem_classes=["glowing-progress"], visible=False)
 
 
         # --- Event Handling & Logic ---
@@ -132,7 +131,7 @@ def create_ui():
                 status_output: "Initializing image generation...",
                 generate_btn: gr.update(interactive=False, value="Generating..."),
                 clear_btn: gr.update(interactive=False),
-                progress_bar: gr.update(value=0, label="Rendering... 0%")
+                progress_bar: gr.update(value=0, label="Rendering... 0%", visible=True)
             }
 
             log_stream = LogStream()
@@ -170,7 +169,7 @@ def create_ui():
                 progress_label = f"Rendering... {int(progress_val * 100)}%"
                 yield {
                     status_output: "\n".join(log_history),
-                    progress_bar: gr.update(value=progress_val, label=progress_label)
+                    progress_bar: gr.update(value=progress_val, label=progress_label, visible=True)
                 }
                 time.sleep(0.1)
 
@@ -188,7 +187,7 @@ def create_ui():
                     image_preview: gr.update(value=image_html, visible=True),
                     generate_btn: gr.update(interactive=True, value="🚀 GENERATE"),
                     clear_btn: gr.update(interactive=True),
-                    progress_bar: gr.update(value=1, label="Rendering Complete")
+                    progress_bar: gr.update(value=1, label="Rendering Complete", visible=False)
                 }
             else:
                 error_msg = result.get('error', "An unknown error occurred.") if result else "An unknown error occurred."
@@ -199,7 +198,7 @@ def create_ui():
                     status_output: "\n".join(log_history),
                     generate_btn: gr.update(interactive=True, value="🚀 GENERATE"),
                     clear_btn: gr.update(interactive=True),
-                    progress_bar: gr.update(value=0, label="Rendering Failed")
+                    progress_bar: gr.update(value=0, label="Rendering Failed", visible=False)
                 }
         
         # List of all setting components
@@ -222,7 +221,7 @@ def create_ui():
                 status_output: "",
                 file_output: gr.update(visible=False),
                 image_preview: gr.update(value=None, visible=False),
-                progress_bar: gr.update(value=0, label="Rendering Progress"),
+                progress_bar: gr.update(value=0, label="Rendering Progress", visible=False),
             }
 
         clear_btn.click(fn=clear_form, outputs=[
