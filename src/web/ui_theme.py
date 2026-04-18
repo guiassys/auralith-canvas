@@ -1,11 +1,11 @@
 """
-Custom Gradio theme for Auralith with a metallic, industrial aesthetic.
+Custom Gradio theme for Auralite with a metallic, industrial aesthetic.
 """
 import gradio as gr
 from gradio.themes.base import Base
 from gradio.themes.utils import colors, fonts, sizes
 
-class AuralithMetalTheme(Base):
+class AuraliteMetalTheme(Base):
     def __init__(self):
         super().__init__(
             primary_hue=colors.slate,
@@ -15,7 +15,7 @@ class AuralithMetalTheme(Base):
             radius_size=sizes.radius_sm,
             font=fonts.GoogleFont("Inter"),
         )
-        self.name = "auralith_metal_theme"
+        self.name = "auralite_metal_theme"
         self.set(
             # --- Base (Metal Dark) ---
             body_background_fill="#0f1114",
@@ -62,7 +62,7 @@ class AuralithMetalTheme(Base):
             input_placeholder_color_dark="#6b7280",
         )
 
-auralith_theme = AuralithMetalTheme()
+auralite_theme = AuraliteMetalTheme()
 
 custom_css = """
 /* --- Inputs --- */

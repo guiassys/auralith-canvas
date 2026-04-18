@@ -1,4 +1,4 @@
-"""Script para executar a interface Web do Auralith Canvas."""
+"""Script para executar a interface Web do Auralite Canvas."""
 
 import sys
 import os
@@ -10,7 +10,7 @@ sys.path.insert(0, project_root)
 from src.web.app import interface
 
 if __name__ == "__main__":
-    print("🚀 Iniciando Auralith-Canvas...")
+    print("🚀 Iniciando Auralite...")
     print("📱 Acesse: http://localhost:7862")
     print("❌ Pressione Ctrl+C para parar")
 

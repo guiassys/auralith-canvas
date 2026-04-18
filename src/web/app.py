@@ -1,5 +1,5 @@
 """
-Professional Web Interface for Auralith using Gradio with a DAW-inspired,
+Professional Web Interface for Auralite using Gradio with a DAW-inspired,
 dark-themed layout and real-time log streaming.
 """
 import gradio as gr
@@ -11,7 +11,7 @@ import base64
 import json
 from src.services.image_generation_service import ImageGenerationService
 from src.web.log_stream import LogStream
-from src.web.ui_theme import auralith_theme, custom_css
+from src.web.ui_theme import auralite_theme, custom_css
 
 # --- Logging Configuration ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -59,15 +59,15 @@ def get_image_html(image_path):
 
 # --- UI DEFINITION ---
 def create_ui():
-    """Builds the Gradio Blocks UI for Auralith Canvas."""
+    """Builds the Gradio Blocks UI for Auralite Canvas."""
     with gr.Blocks(
-            title="Auralith Canvas",
-            theme=auralith_theme,
+            title="Auralite Canvas",
+            theme=auralite_theme,
             css=custom_css
     ) as demo:
         # --- Header ---
         with gr.Row(elem_classes=["header"]):
-            gr.Markdown("## 🎨 Auralith Canvas", elem_id="logo")
+            gr.Markdown("## 🎨 Auralite Canvas", elem_id="logo")
             with gr.Column(scale=3):
                 progress_bar = gr.Slider(label="Rendering Progress", value=0, interactive=False, elem_classes=["glowing-progress"])
         
