@@ -42,7 +42,7 @@ def main():
 
     try:
         from src.web.app import interface
-        print("🚀 Iniciando Auralite Canvas...")
+        print("🚀 Iniciando Auralite ...")
         print(f"📱 Acesse: http://{server_host}:{server_port}")
         print("❌ Pressione Ctrl+C para parar")
 

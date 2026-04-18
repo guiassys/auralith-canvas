@@ -1,4 +1,4 @@
-"""Script para executar a interface Web do Auralite Canvas."""
+"""Script para executar a interface Web do Auralite ."""
 
 import sys
 import os

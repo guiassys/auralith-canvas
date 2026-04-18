@@ -1,6 +1,6 @@
-# 🎧 Auralite Canvas
+# 🎧 Auralite 
 
-AI-powered Python tool to create stunning images from images and text prompts. Auralite Canvas is designed to be an intuitive platform for artists and creators to bring their static images to life.
+AI-powered Python tool to create stunning images from images and text prompts. Auralite  is designed to be an intuitive platform for artists and creators to bring their static images to life.
 
 ---
 
@@ -17,7 +17,7 @@ To create an automated pipeline capable of:
 
 # 🏗️ System Architecture
 
-Auralite Canvas is built as a modular, AI-based multimedia generation pipeline.
+Auralite  is built as a modular, AI-based multimedia generation pipeline.
 
 ## 🔹 System Layers
 
@@ -47,7 +47,7 @@ The final destination for generated assets. It structures the outputs by saving 
 
 ## Developer Installation (WSL + Ubuntu)
 ```bash
-cd ~/devtools/repos/auralite-canvas
+cd ~/devtools/repos/auralite
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
@@ -83,7 +83,7 @@ The generated file will be saved in the `outputs` directory (or custom output di
 # 📁 Project Structure
 
 ```
-auralite-canvas/
+auralite/
 ├── src/
 │   ├── ai_agent/         # AI configuration and prompts
 │   │   └── GEMINI-01.md

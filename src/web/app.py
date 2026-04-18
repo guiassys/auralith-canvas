@@ -59,15 +59,15 @@ def get_image_html(image_path):
 
 # --- UI DEFINITION ---
 def create_ui():
-    """Builds the Gradio Blocks UI for Auralite Canvas."""
+    """Builds the Gradio Blocks UI for Auralite ."""
     with gr.Blocks(
-            title="Auralite Canvas",
+            title="Auralite ",
             theme=auralite_theme,
             css=custom_css
     ) as demo:
         # --- Header ---
         with gr.Row(elem_classes=["header"]):
-            gr.Markdown("## 🎨 Auralite Canvas", elem_id="logo")
+            gr.Markdown("## 🎨 Auralite ", elem_id="logo")
             with gr.Column(scale=3):
                 progress_bar = gr.Slider(label="Rendering Progress", value=0, interactive=False, elem_classes=["glowing-progress"])
         

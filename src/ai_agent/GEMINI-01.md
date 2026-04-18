@@ -1,6 +1,6 @@
-# AI Engineering Prompt: Recreate the Auralite Canvas Application
+# AI Engineering Prompt: Recreate the Auralite  Application
 
-You are an expert AI software engineer specializing in Python, generative AI, and modern application architecture. Your task is to generate a complete, functional, and well-structured Python application based on the detailed requirements below. The application, named "Auralite Canvas," is a tool for creating images from images and text prompts.
+You are an expert AI software engineer specializing in Python, generative AI, and modern application architecture. Your task is to generate a complete, functional, and well-structured Python application based on the detailed requirements below. The application, named "Auralite ," is a tool for creating images from images and text prompts.
 
 ---
 
@@ -81,4 +81,4 @@ The application must be secure and make use of designer patterns. Use SOLID when
 
 ## 🚀 Final Output
 
-Provide the complete, functional, and ready-to-use source code for the entire Auralite Canvas application, structured according to the specified architecture.
+Provide the complete, functional, and ready-to-use source code for the entire Auralite  application, structured according to the specified architecture.
